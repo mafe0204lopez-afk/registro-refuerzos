@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Refuerzos - JP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+        
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .info-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .info-card h3 {
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .info-card .value {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        
+        .form-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .form-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 0.9em;
+        }
+        
+        input, select, textarea {
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .opportunity-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .opportunity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .opportunity-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .star-display {
+            font-size: 1.5em;
+        }
+        
+        .buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+        }
+        
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .history-table th,
+        .history-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .history-table th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .history-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+            }
+            button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌟 Sistema de Registro de Refuerzos - JP</h1>
+        <p class="subtitle">Refuerzo Diferencial Contingente (< 2 segundos)</p>
+        
+        <div class="info-cards">
+            <div class="info-card">
+                <h3>Estrellas de Hoy</h3>
+                <div class="value" id="totalStars">0</div>
+            </div>
+            <div class="info-card">
+                <h3>Oportunidades</h3>
+                <div class="value" id="totalOpportunities">0/5</div>
+            </div>
+            <div class="info-card">
+                <h3>Refuerzos Canjeados</h3>
+                <div class="value" id="totalRedeemed">0</div>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h2>📋 Información de la Sesión</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="sessionDate">Fecha:</label>
+                    <input type="date" id="sessionDate">
+                </div>
+                <div class="form-group">
+                    <label for="sessionTime">Hora de Inicio:</label>
+                    <input type="time" id="sessionTime">
+                </div>
+                <div class="form-group">
+                    <label for="facilitator">Facilitador:</label>
+                    <input type="text" id="facilitator" placeholder="Nombre del facilitador">
+                </div>
+                <div class="form-group">
+                    <label for="sessionPhase">Fase:</label>
+                    <select id="sessionPhase">
+                        <option value="">Seleccionar...</option>
+                        <option value="Fase 1">Fase 1 - Co-construcción (8 min)</option>
+                        <option value="Fase 2">Fase 2 - Práctica Contingente (15 min)</option>
+                        <option value="Fase 3">Fase 3 - Integración (5 min)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h2>⭐ Registro de Oportunidades (Fase 2)</h2>
+            
+            <div id="opportunitiesContainer">
+                <!-- Oportunidad 1 -->
+                <div class="opportunity-item">
+                    <div class="opportunity-header">
+                        <div class="opportunity-number">1</div>
+                        <div class="star-display">⭐</div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Conducta Alternativa:</label>
+                            <input type="text" class="conduct" value="Golpea almohada" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Hora:</label>
+                            <input type="time" class="time">
+                        </div>
+                        <div class="form-group">
+                            <label>¿Ejecutó la conducta?:</label>
+                            <select class="executed">
+                                <option value="">Seleccionar...</option>
+                                <option value="Sí">Sí</option>
+                                <option value="Con apoyo">Con apoyo</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tiempo de refuerzo:</label>
+                            <select class="refTime">
+                                <option value="">Seleccionar...</option>
+                                <option value="< 2 seg">< 2 segundos ✓</option>
+                                <option value="2-5 seg">2-5 segundos</option>
+                                <option value="> 5 seg">> 5 segundos</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label>Alabanza específica dada:</label>
+                        <textarea class="praise" placeholder="Ej: ¡Elegiste almohada en lugar de ti!"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Oportunidad 2 -->
+                <div class="opportunity-item">
+                    <div class="opportunity-header">
+                        <div class="opportunity-number">2</div>
+                        <div class="star-display">⭐</div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Conducta Alternativa:</label>
+                            <input type="text" class="conduct" value="Presiona masilla" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Hora:</label>
+                            <input type="time" class="time">
+                        </div>
+                        <div class="form-group">
+                            <label>¿Ejecutó la conducta?:</label>
+                            <select class="executed">
+                                <option value="">Seleccionar...</option>
+                                <option value="Sí">Sí</option>
+                                <option value="Con apoyo">Con apoyo</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tiempo de refuerzo:</label>
+                            <select class="refTime">
+                                <option value="">Seleccionar...</option>
+                                <option value="< 2 seg">< 2 segundos ✓</option>
+                                <option value="2-5 seg">2-5 segundos</option>
+                                <option value="> 5 seg">> 5 segundos</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label>Alabanza específica dada:</label>
+                        <textarea class="praise" placeholder="Ej: ¡Muy bien usando la masilla cuando estás frustrado!"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Oportunidad 3 -->
+                <div class="opportunity-item">
+                    <div class="opportunity-header">
+                        <div class="opportunity-number">3</div>
+                        <div class="star-display">⭐</div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Conducta Alternativa:</label>
+                            <input type="text" class="conduct" value="Se acuesta controladamente" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Hora:</label>
+                            <input type="time" class="time">
+                        </div>
+                        <div class="form-group">
+                            <label>¿Ejecutó la conducta?:</label>
+                            <select class="executed">
+                                <option value="">Seleccionar...</option>
+                                <option value="Sí">Sí</option>
+                                <option value="Con apoyo">Con apoyo</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tiempo de refuerzo:</label>
+                            <select class="refTime">
+                                <option value="">Seleccionar...</option>
+                                <option value="< 2 seg">< 2 segundos ✓</option>
+                                <option value="2-5 seg">2-5 segundos</option>
+                                <option value="> 5 seg">> 5 segundos</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label>Alabanza específica dada:</label>
+                        <textarea class="praise" placeholder="Ej: ¡Excelente control de tu cuerpo!"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Oportunidad 4 - Canje -->
+                <div class="opportunity-item" style="border-left-color: #28a745;">
+                    <div class="opportunity-header">
+                        <div class="opportunity-number" style="background: #28a745;">4</div>
+                        <div class="star-display">🎁</div>
+                    </div>
+                    <h4 style="color: #28a745; margin-bottom: 10px;">Canje de 3 Estrellas</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Hora del canje:</label>
+                            <input type="time" class="time">
+                        </div>
+                        <div class="form-group">
+                            <label>Refuerzo elegido:</label>
+                            <input type="text" class="refChosen" placeholder="Ej: Sticker favorito">
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de refuerzo:</label>
+                            <select class="refType">
+                                <option value="">Seleccionar...</option>
+                                <option value="Pequeño (3★)">Pequeño (3★)</option>
+                                <option value="Mediano (6★)">Mediano (6★)</option>
+                                <option value="Grande (10★)">Grande (10★)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Duración disfrute:</label>
+                            <input type="text" class="duration" placeholder="1-2 min">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label>Observaciones del canje:</label>
+                        <textarea class="observations" placeholder="Reacción de JP al canje, nivel de satisfacción..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- Oportunidad 5 -->
+                <div class="opportunity-item">
+                    <div class="opportunity-header">
+                        <div class="opportunity-number">5</div>
+                        <div class="star-display">⭐</div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Conducta Alternativa:</label>
+                            <input type="text" class="conduct" placeholder="JP demuestra una alternativa">
+                        </div>
+                        <div class="form-group">
+                            <label>Hora:</label>
+                            <input type="time" class="time">
+                        </div>
+                        <div class="form-group">
+                            <label>¿Ejecutó la conducta?:</label>
+                            <select class="executed">
+                                <option value="">Seleccionar...</option>
+                                <option value="Sí">Sí</option>
+                                <option value="Con apoyo">Con apoyo</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tiempo de refuerzo:</label>
+                            <select class="refTime">
+                                <option value="">Seleccionar...</option>
+                                <option value="< 2 seg">< 2 segundos ✓</option>
+                                <option value="2-5 seg">2-5 segundos</option>
+                                <option value="> 5 seg">> 5 segundos</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 10px;">
+                        <label>Alabanza específica dada:</label>
+                        <textarea class="praise" placeholder="Alabanza personalizada según la conducta demostrada"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h2>🎯 Fase 3 - Integración (5 min)</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>¿Se modeló la secuencia completa?:</label>
+                    <select id="sequenceModeled">
+                        <option value="">Seleccionar...</option>
+                        <option value="Sí">Sí</option>
+                        <option value="Parcialmente">Parcialmente</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Simulación de crisis realizada:</label>
+                    <input type="text" id="crisisSimulation" placeholder="Ej: Te quitaron tu juguete">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Respuesta de JP a la simulación:</label>
+                <textarea id="jpResponse" placeholder="Describa cómo respondió JP ante la crisis simulada..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Secuencia ejecutada (Respira → Alternativa → Estrella):</label>
+                <textarea id="sequenceExecution" placeholder="Describa si JP logró seguir la secuencia completa..."></textarea>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h2>📝 Observaciones Generales</h2>
+            <div class="form-group">
+                <label>Estado emocional de JP durante la sesión:</label>
+                <textarea id="emotionalState" placeholder="Describa el estado emocional general..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Conductas autoagresivas observadas:</label>
+                <textarea id="selfHarm" placeholder="Registre si hubo alguna conducta autoagresiva y el contexto..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Logros destacados:</label>
+                <textarea id="achievements" placeholder="Momentos exitosos, avances significativos..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Recomendaciones para próxima sesión:</label>
+                <textarea id="recommendations" placeholder="Ajustes sugeridos, áreas a reforzar..."></textarea>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button class="btn-primary" onclick="saveSession()">💾 Guardar Registro</button>
+            <button class="btn-success" onclick="exportData()">📊 Exportar a CSV</button>
+            <button class="btn-secondary" onclick="printReport()">🖨️ Imprimir</button>
+            <button class="btn-secondary" onclick="clearForm()">🔄 Nueva Sesión</button>
+        </div>
+        
+        <div class="form-section">
+            <h2>📚 Historial de Sesiones</h2>
+            <div id="historyContainer">
+                <div class="empty-state">
+                    <p>No hay sesiones registradas aún.</p>
+                    <p>Completa el formulario y guarda tu primera sesión.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let sessions = [];
+        
+        // Establecer fecha y hora actual al cargar
+        window.onload = function() {
+            const today = new Date();
+            document.getElementById('sessionDate').valueAsDate = today;
+            document.getElementById('sessionTime').value = today.toTimeString().slice(0,5);
+            loadSessions();
+            updateStats();
+        };
+        
+        function updateStats() {
+            const opportunities = document.querySelectorAll('.executed');
+            let completedOpps = 0;
+            let totalStars = 0;
+            
+            opportunities.forEach(opp => {
+                if (opp.value === 'Sí' || opp.value === 'Con apoyo') {
+                    completedOpps++;
+                    totalStars++;
+                }
+            });
+            
+            document.getElementById('totalStars').textContent = totalStars;
+            document.getElementById('totalOpportunities').textContent = completedOpps + '/5';
+            
+            // Contar canjes
+            const refChosen = document.querySelector('.refChosen');
+            if (refChosen && refChosen.value) {
+                document.getElementById('totalRedeemed').textContent = '1';
+            }
+        }
+        
+        // Actualizar estadísticas cuando cambian los valores
+        document.querySelectorAll('.executed, .refChosen').forEach(element => {
+            element.addEventListener('change', updateStats);
+        });
+        
+        function saveSession() {
+            const session = {
+                id: Date.now(),
+                date: document.getElementById('sessionDate').value,
+                time: document.getElementById('sessionTime').value,
+                facilitator: document.getElementById('facilitator').value,
+                phase: document.getElementById('sessionPhase').value,
+                opportunities: [],
+                phase3: {
+                    sequenceModeled: document.getElementById('sequenceModeled').value,
+                    crisisSimulation: document.getElementById('crisisSimulation').value,
+                    jpResponse: document.getElementById('jpResponse').value,
+                    sequenceExecution: document.getElementById('sequenceExecution').value
+                },
+                observations: {
+                    emotionalState: document.getElementById('emotionalState').value,
+                    selfHarm: document.getElementById('selfHarm').value,
+                    achievements: document.getElementById('achievements').value,
+                    recommendations: document.getElementById('recommendations').value
+                }
+            };
+            
+            // Recopilar datos de oportunidades
+            const oppItems = document.querySelectorAll('.opportunity-item');
+            oppItems.forEach((item, index) => {
+                const opp = {
+                    number: index + 1,
+                    conduct: item.querySelector('.conduct') ? item.querySelector('.conduct').value : '',
+                    time: item.querySelector('.time').value,
+                    executed: item.querySelector('.executed') ? item.querySelector('.executed').value : '',
+                    refTime: item.querySelector('.refTime') ? item.querySelector('.refTime').value : '',
+                    praise: item.querySelector('.praise') ? item.querySelector('.praise').value : '',
+                    refChosen: item.querySelector('.refChosen') ? item.querySelector('.refChosen').value : '',
+                    refType: item.querySelector('.refType') ? item.querySelector('.refType').value : '',
+                    duration: item.querySelector('.duration') ? item.querySelector('.duration').value : '',
+                    observations: item.querySelector('.observations') ? item.querySelector('.observations').value : ''
+                };
+                session.opportunities.push(opp);
+            });
+            
+            sessions.push(session);
+            saveSessions();
+            displayHistory();
+            alert('✅ Sesión guardada exitosamente!');
+        }
+        
+        function saveSessions() {
+            const data = JSON.stringify(sessions);
+            const blob = new Blob([data], { type: 'application/json' });
+            // En un entorno real, esto se guardaría en una base de datos o Google Sheets
+        }
+        
+        function loadSessions() {
+            // Cargar sesiones guardadas (simulado)
+            displayHistory();
+        }
+        
+        function displayHistory() {
+            const container = document.getElementById('historyContainer');
+            
+            if (sessions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <p>No hay sesiones registradas aún.</p>
+                        <p>Completa el formulario y guarda tu primera sesión.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = `
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Facilitador</th>
+                            <th>Fase</th>
+                            <th>Estrellas</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            sessions.forEach(session => {
+                const stars = session.opportunities.filter(o => o.executed === 'Sí' || o.executed === 'Con apoyo').length;
+                html += `
+                    <tr>
+                        <td>${session.date}</td>
+                        <td>${session.time}</td>
+                        <td>${session.facilitator}</td>
+                        <td>${session.phase}</td>
+                        <td>⭐ ${stars}</td>
+                        <td><button class="btn-secondary" style="padding: 5px 10px; font-size: 0.8em;" onclick="viewSession(${session.id})">Ver</button></td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                    </tbody>
+                </table>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        function viewSession(id) {
+            const session = sessions.find(s => s.id === id);
+            if (session) {
+                alert('Funcionalidad de vista detallada en desarrollo.\n\nDatos de la sesión:\nFecha: ' + session.date + '\nFacilitador: ' + session.facilitator);
+            }
+        }
+        
+        function exportData() {
+            if (sessions.length === 0) {
+                alert('No hay datos para exportar. Guarda al menos una sesión primero.');
+                return;
+            }
+            
+            let csv = 'Fecha,Hora,Facilitador,Fase,Oportunidad,Conducta,Ejecutada,Tiempo Refuerzo,Alabanza\n';
+            
+            sessions.forEach(session => {
+                session.opportunities.forEach(opp => {
+                    csv += `"${session.date}","${session.time}","${session.facilitator}","${session.phase}",${opp.number},"${opp.conduct}","${opp.executed}","${opp.refTime}","${opp.praise}"\n`;
+                });
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'registro_refuerzos_jp_' + new Date().toISOString().slice(0,10) + '.csv';
+            a.click();
+        }
+        
+        function printReport() {
+            window.print();
+        }
+        
+        function clearForm() {
+            if (confirm('¿Estás seguro de que deseas iniciar una nueva sesión? Los datos no guardados se perderán.')) {
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
